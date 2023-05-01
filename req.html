@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+	<title>Bootstrap Example</title>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="bootstrap.bundle.min.js "></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="./buyerdashboard.html">Buyer <span
+						class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link " href="./vendor1.html">Vendor1</a>
+				<a class="nav-item nav-link" href="./vendor2.html">Vendor2</a>
+			</div>
+		</div>
+	</nav>
+	<br><br><br>
+
+	<script src="./script.js"></script>
+	<script>
+		const add = async () => {
+			await connectMetamask();
+			await connectContract();
+			const m1 = document.getElementById("n2").value;
+			const m2 = document.getElementById("n3").value;
+			const m3 = document.getElementById("date").value;
+			const m4 = new Date().toLocaleDateString();
+			const m5 = new Date().getTime();
+			console.log(m5);
+			await window.contract.methods.push_element(m1, m2, m3, m4, m5).send({ from: account }).then((result) => {
+				document.getElementById("sucessful").innerHTML = `<p>Your request added to Blockchain, venders can reply for your request</p>
+				<p>You can view it's status in buyer dashboard by clicking <a href="./buyerdashboard.html">here</a></p>`;
+			}).catch((err) => {
+				console.error();
+			});
+			// const data = await window.contract.methods.arr().call();
+			// document.getElementById("sum").innerHTML = `data is: ${data}`;
+
+		}
+
+	</script>
+	<div class="container">
+		<h1 style="text-align: center;">Buyer Request Page</h1>
+		<h6>Request Form</h6><br />
+		<div class="form">
+			<p>Product : <input type="text" id="n2" list="Lists">
+				<datalist id="Lists">
+					<option value="Projector">
+					<option value="AC">
+					<option value="Laptops">
+				</datalist>
+			</p>
+			<br>
+			<p>Quantity : <input type="number" name="quantity" placeholder="quantity" id="n3"></p><br>
+			<p>Last Date for contract : <input type="date" name="date" id="date" /></p><br />
+			<button onclick="add()" type="submit">Submit</button>
+			<br><br>
+			<div id="sucessful"></div>
+		</div>
+		<p id="sum"></p>
+	</div>
+</body>
+
+</html>
